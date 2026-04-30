@@ -353,7 +353,7 @@
 <div class="topbar">
   <div class="wordmark">optemization</div>
   <h1>Match the <em>baby</em>.</h1>
-  <p class="subtitle">16 numbered photos → match each to a teammate. Some are trick questions. Top 3 win.</p>
+  <p class="subtitle">17 numbered photos → match each to a teammate. Some are trick questions. Top 3 win.</p>
 </div>
 
 <main class="container">
@@ -365,7 +365,7 @@
     <form id="game-form">
       <div class="grid" id="grid"></div>
       <div class="submit-row">
-        <div class="progress"><strong id="progressNum">0</strong> / 16 answered</div>
+        <div class="progress"><strong id="progressNum">0</strong> / 17 answered</div>
         <button type="submit" class="submit-btn" id="submitBtn" disabled>Lock in my guesses</button>
       </div>
     </form>
@@ -373,7 +373,7 @@
 
   <section id="result" class="result" hidden>
     <h2 class="result-title" id="resultTitle">Submitted!</h2>
-    <div class="score-num"><span id="scoreNum">0</span><span class="score-out-of"> / 16</span></div>
+    <div class="score-num"><span id="scoreNum">0</span><span class="score-out-of"> / 17</span></div>
     <p class="result-msg" id="resultMsg"></p>
     <div class="saved-pill" id="savedPill" hidden></div>
     <div>
@@ -390,24 +390,25 @@
   const ENDPOINT = "https://primary-production-022b.up.railway.app/webhook/baby-optemizers";
 
   const PHOTOS = [
-    { n: 1,  file: "photos/luiza-1.jpeg",     answer: "Luiza" },
+    { n: 1,  file: "photos/lidia.jpg",        answer: "Lídia" },
     { n: 2,  file: "photos/marcelo-1.jpg",    answer: "Marcelo" },
     { n: 3,  file: "photos/irene.jpg",        answer: "Irene" },
-    { n: 4,  file: "photos/lidia.jpg",        answer: "Lídia" },
+    { n: 4,  file: "photos/kamau.jpg",        answer: "Kamau" },
     { n: 5,  file: "photos/tem.jpg",          answer: "Tem" },
-    { n: 6,  file: "photos/marcelo-2.jpg",    answer: "Marcelo" },
+    { n: 6,  file: "photos/skyler.png",       answer: "Skyler" },
     { n: 7,  file: "photos/natalie.jpg",      answer: "Natalie" },
     { n: 8,  file: "photos/luiza-2.jpeg",     answer: "Luiza" },
-    { n: 9,  file: "photos/dunston.jpg",      answer: "Dunston" },
-    { n: 10, file: "photos/esteban-1.png",    answer: "Esteban" },
-    { n: 11, file: "photos/skyler.png",       answer: "Skyler" },
-    { n: 12, file: "photos/vini.jpg",         answer: "Vini" },
-    { n: 13, file: "photos/hasty.jpg",        answer: "Hasty" },
-    { n: 14, file: "photos/mike.jpg",         answer: "Mike" },
-    { n: 15, file: "photos/beckham.jpg",      answer: "Beckham" },
-    { n: 16, file: "photos/esteban-2.png",    answer: "Elliot" }
+    { n: 9,  file: "photos/luiza-1.jpeg",     answer: "Luiza" },
+    { n: 10, file: "photos/dunston.jpg",      answer: "Dunston" },
+    { n: 11, file: "photos/esteban-1.png",    answer: "Esteban" },
+    { n: 12, file: "photos/mike.jpg",         answer: "Mike" },
+    { n: 13, file: "photos/vini.jpg",         answer: "Vini" },
+    { n: 14, file: "photos/hasty.jpg",        answer: "Hasty" },
+    { n: 15, file: "photos/marcelo-2.jpg",    answer: "Marcelo" },
+    { n: 16, file: "photos/beckham.jpg",      answer: "Beckham" },
+    { n: 17, file: "photos/esteban-2.png",    answer: "Elliot" }
   ];
-  const TEAM = ["Beckham", "Dunston", "Elliot", "Esteban", "Hasty", "Irene", "Lídia", "Luiza", "Marcelo", "Mike", "Natalie", "Skyler", "Tem", "Vini"];
+  const TEAM = ["Beckham", "Dunston", "Elliot", "Esteban", "Hasty", "Irene", "Kamau", "Lídia", "Luiza", "Marcelo", "Mike", "Natalie", "Skyler", "Tem", "Vini"];
 
   const grid = document.getElementById("grid");
   const form = document.getElementById("game-form");
@@ -451,7 +452,7 @@
   function updateProgress() {
     const answered = [...form.querySelectorAll("select")].filter(s => s.value).length;
     progressNum.textContent = answered;
-    submitBtn.disabled = !(answered === 16 && playerName.value.trim().length > 0);
+    submitBtn.disabled = !(answered === 17 && playerName.value.trim().length > 0);
   }
   playerName.addEventListener("input", updateProgress);
 
@@ -516,13 +517,14 @@
     document.getElementById("scoreNum").textContent = score;
 
     const msgs = {
-      16: { t: "Perfect score 🏆",     m: "You spotted every kid AND every trick. Suspicious." },
-      15: { t: "Almost flawless ✨",    m: "One slip from immortality." },
-      14: { t: "Excellent 🎉",           m: "You really know this team." },
+      17: { t: "Perfect score 🏆",     m: "You spotted every kid AND every trick. Suspicious." },
+      16: { t: "Almost flawless ✨",    m: "One slip from immortality." },
+      15: { t: "Excellent 🎉",           m: "You really know this team." },
+      14: { t: "Strong work 👏",         m: "Solid eye for baby faces." },
       13: { t: "Strong work 👏",         m: "Solid eye for baby faces." },
-      12: { t: "Strong work 👏",         m: "Solid eye for baby faces." },
+      12: { t: "Nice 🙌",                 m: "Above average. Respectable." },
       11: { t: "Nice 🙌",                 m: "Above average. Respectable." },
-      10: { t: "Nice 🙌",                 m: "Above average. Respectable." },
+      10: { t: "Decent 🙃",              m: "You got most of them." },
       9:  { t: "Decent 🙃",              m: "You got most of them." },
       8:  { t: "Halfway there 🤷",       m: "Coin-flip territory but charming." },
       7:  { t: "Halfway there 🤷",       m: "Coin-flip territory but charming." },
@@ -548,7 +550,7 @@
       pill.textContent = "Couldn't reach the leaderboard — paste your score in Slack as backup";
     }
 
-    if (score >= 14) burstConfetti();
+    if (score >= 15) burstConfetti();
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     const copyBtn = document.getElementById("copyBtn");
