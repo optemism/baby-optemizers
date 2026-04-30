@@ -353,7 +353,7 @@
 <div class="topbar">
   <div class="wordmark">optemization</div>
   <h1>Match the <em>baby</em>.</h1>
-  <p class="subtitle">12 numbered photos → match each to a teammate. Top 3 win.</p>
+  <p class="subtitle">14 numbered photos → match each to a teammate. Top 3 win.</p>
 </div>
 
 <main class="container">
@@ -365,7 +365,7 @@
     <form id="game-form">
       <div class="grid" id="grid"></div>
       <div class="submit-row">
-        <div class="progress"><strong id="progressNum">0</strong> / 12 answered</div>
+        <div class="progress"><strong id="progressNum">0</strong> / 14 answered</div>
         <button type="submit" class="submit-btn" id="submitBtn" disabled>Lock in my guesses</button>
       </div>
     </form>
@@ -373,7 +373,7 @@
 
   <section id="result" class="result" hidden>
     <h2 class="result-title" id="resultTitle">Submitted!</h2>
-    <div class="score-num"><span id="scoreNum">0</span><span class="score-out-of"> / 12</span></div>
+    <div class="score-num"><span id="scoreNum">0</span><span class="score-out-of"> / 14</span></div>
     <p class="result-msg" id="resultMsg"></p>
     <div class="saved-pill" id="savedPill" hidden></div>
     <div>
@@ -390,20 +390,22 @@
   const ENDPOINT = "https://primary-production-022b.up.railway.app/webhook/baby-optemizers";
 
   const PHOTOS = [
-    { n: 1,  file: "photos/mike.jpg",         answer: "Mike" },
-    { n: 2,  file: "photos/marcelo-1.jpg",    answer: "Marcelo" },
-    { n: 3,  file: "photos/irene.jpg",        answer: "Irene" },
-    { n: 4,  file: "photos/natalie.jpg",      answer: "Natalie" },
-    { n: 5,  file: "photos/skyler.png",       answer: "Skyler" },
-    { n: 6,  file: "photos/marcelo-2.jpg",    answer: "Marcelo" },
-    { n: 7,  file: "photos/vini.jpg",         answer: "Vini" },
-    { n: 8,  file: "photos/luiza-1.jpeg",     answer: "Luiza" },
-    { n: 9,  file: "photos/luiza-2.jpeg",     answer: "Luiza" },
-    { n: 10, file: "photos/dunston.jpg",      answer: "Dunston" },
-    { n: 11, file: "photos/hasty.jpg",        answer: "Hasty" },
-    { n: 12, file: "photos/tem.jpg",          answer: "Tem" }
+    { n: 1,  file: "photos/marcelo-2.jpg",    answer: "Marcelo" },
+    { n: 2,  file: "photos/tem.jpg",          answer: "Tem" },
+    { n: 3,  file: "photos/marcelo-1.jpg",    answer: "Marcelo" },
+    { n: 4,  file: "photos/luiza-2.jpeg",     answer: "Luiza" },
+    { n: 5,  file: "photos/vini.jpg",         answer: "Vini" },
+    { n: 6,  file: "photos/skyler.png",       answer: "Skyler" },
+    { n: 7,  file: "photos/luiza-1.jpeg",     answer: "Luiza" },
+    { n: 8,  file: "photos/esteban-2.png",    answer: "Elliot" },
+    { n: 9,  file: "photos/mike.jpg",         answer: "Mike" },
+    { n: 10, file: "photos/hasty.jpg",        answer: "Hasty" },
+    { n: 11, file: "photos/irene.jpg",        answer: "Irene" },
+    { n: 12, file: "photos/dunston.jpg",      answer: "Dunston" },
+    { n: 13, file: "photos/esteban-1.png",    answer: "Esteban" },
+    { n: 14, file: "photos/natalie.jpg",      answer: "Natalie" }
   ];
-  const TEAM = ["Dunston", "Hasty", "Irene", "Luiza", "Marcelo", "Mike", "Natalie", "Skyler", "Tem", "Vini"];
+  const TEAM = ["Dunston", "Elliot", "Esteban", "Hasty", "Irene", "Luiza", "Marcelo", "Mike", "Natalie", "Skyler", "Tem", "Vini"];
 
   const grid = document.getElementById("grid");
   const form = document.getElementById("game-form");
@@ -447,7 +449,7 @@
   function updateProgress() {
     const answered = [...form.querySelectorAll("select")].filter(s => s.value).length;
     progressNum.textContent = answered;
-    submitBtn.disabled = !(answered === 12 && playerName.value.trim().length > 0);
+    submitBtn.disabled = !(answered === 14 && playerName.value.trim().length > 0);
   }
   playerName.addEventListener("input", updateProgress);
 
@@ -512,12 +514,14 @@
     document.getElementById("scoreNum").textContent = score;
 
     const msgs = {
-      12: { t: "Perfect score 🏆",     m: "You actually know everyone. Suspicious." },
-      11: { t: "So close ✨",            m: "One more would've been a flawless run." },
-      10: { t: "Excellent 🎉",           m: "You've been paying attention." },
-      9:  { t: "Strong work 👏",         m: "Solid eye for baby faces." },
-      8:  { t: "Nice 🙌",                 m: "Above average. Respectable." },
-      7:  { t: "Decent 🙃",              m: "You knew most of them." },
+      14: { t: "Perfect score 🏆",     m: "You actually know everyone. Including Elliot." },
+      13: { t: "Almost flawless ✨",    m: "One slip from immortality." },
+      12: { t: "Excellent 🎉",           m: "You've been paying attention." },
+      11: { t: "Strong work 👏",         m: "Solid eye for baby faces." },
+      10: { t: "Nice 🙌",                 m: "Above average. Respectable." },
+      9:  { t: "Decent 🙃",              m: "You knew most of them." },
+      8:  { t: "Decent 🙃",              m: "You knew most of them." },
+      7:  { t: "Halfway there 🤷",       m: "Coin-flip territory but charming." },
       6:  { t: "Halfway there 🤷",       m: "Coin-flip territory but charming." },
       5:  { t: "Tough crowd 😅",         m: "Babies all kind of look alike, right?" },
       4:  { t: "Eh 🫠",                   m: "There's always next year." },
@@ -540,12 +544,12 @@
       pill.textContent = "Couldn't reach the leaderboard — paste your score in Slack as backup";
     }
 
-    if (score >= 10) burstConfetti();
+    if (score >= 12) burstConfetti();
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     const copyBtn = document.getElementById("copyBtn");
     const ts = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-    const payload = `🍼 ${name} — ${score}/12 (${ts})`;
+    const payload = `🍼 ${name} — ${score}/14 (${ts})`;
     copyBtn.onclick = async () => {
       try {
         await navigator.clipboard.writeText(payload);
