@@ -6,239 +6,318 @@
 <title>Baby Optemizers — Match the Baby</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #faf7f2;
+    /* Optemization brand */
+    --energy: #11E68D;
+    --energy-dim: #0fcc7d;
+    --ink: #000000;
+    --slate: #262626;
+    --silicon: #EFEFEF;
+    --silicon-2: #8A8A8A;
+    --line: #d9d9d9;
+    --bg: #f4f4f3;
     --card: #ffffff;
-    --ink: #18181b;
-    --ink-soft: #52525b;
-    --line: #e4e4e7;
-    --accent: #f97316;
-    --accent-ink: #ea580c;
-    --good: #16a34a;
-    --bad: #dc2626;
-    --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow: 0 1px 0 rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.05);
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: var(--bg);
     color: var(--ink);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
+
+  /* Header */
+  .topbar {
+    background: var(--ink);
+    color: var(--silicon);
+    padding: 28px 24px 36px;
+    text-align: center;
+    border-bottom: 4px solid var(--energy);
+  }
+  .wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--silicon);
+    text-transform: lowercase;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  .wordmark::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: var(--energy);
+    border-radius: 2px;
+    align-self: center;
+  }
+  h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin: 14px 0 8px;
+    color: white;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--energy);
+  }
+  .subtitle {
+    font-size: clamp(14px, 1.6vw, 18px);
+    color: var(--silicon-2);
+    margin: 0;
+    font-weight: 400;
+  }
+
   .container {
     max-width: 1100px;
     margin: 0 auto;
     padding: 32px 20px 64px;
   }
-  header {
-    text-align: center;
-    margin-bottom: 28px;
-  }
-  h1 {
-    font-size: clamp(28px, 4.5vw, 44px);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 0 0 6px;
-  }
-  .subtitle {
-    font-size: clamp(14px, 1.6vw, 17px);
-    color: var(--ink-soft);
-    margin: 0;
-  }
   .name-row {
     display: flex;
     justify-content: center;
-    margin: 24px 0 28px;
+    margin-bottom: 28px;
   }
   .name-input {
-    width: min(360px, 100%);
-    padding: 12px 16px;
-    font-size: 16px;
+    width: min(420px, 100%);
+    padding: 14px 18px;
+    font-size: 17px;
     font-family: inherit;
+    font-weight: 500;
+    letter-spacing: -0.01em;
     border: 1.5px solid var(--line);
-    border-radius: 10px;
+    border-radius: 12px;
     background: var(--card);
+    color: var(--ink);
     transition: border-color 0.15s, box-shadow 0.15s;
   }
+  .name-input::placeholder { color: var(--silicon-2); font-weight: 400; }
   .name-input:focus {
     outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+    border-color: var(--energy);
+    box-shadow: 0 0 0 3px rgba(17, 230, 141, 0.18);
   }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 16px;
+    gap: 18px;
   }
   .card {
     position: relative;
     background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
     overflow: hidden;
     box-shadow: var(--shadow);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   }
-  .card:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,0.06), 0 12px 24px rgba(0,0,0,0.06); }
+  .card:hover { transform: translateY(-2px); border-color: var(--ink); }
+  .card.answered { border-color: var(--energy); }
   .photo-wrap {
     position: relative;
     aspect-ratio: 1 / 1;
-    background: #f4f4f5;
+    background: var(--silicon);
     overflow: hidden;
   }
   .photo-wrap img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 25%;
+    object-position: center 30%;
     display: block;
   }
   .badge {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    background: rgba(24, 24, 27, 0.92);
-    color: white;
-    font-weight: 700;
+    top: 12px;
+    left: 12px;
+    background: var(--ink);
+    color: var(--energy);
+    font-weight: 800;
     font-size: 18px;
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(8px);
+    letter-spacing: -0.02em;
+  }
+  .card.answered .badge {
+    background: var(--energy);
+    color: var(--ink);
   }
   .card select {
     width: 100%;
-    padding: 12px 14px;
+    padding: 14px 16px;
     font-size: 15px;
     font-family: inherit;
+    font-weight: 500;
     border: none;
-    border-top: 1px solid var(--line);
-    background: white;
+    border-top: 1.5px solid var(--line);
+    background: var(--card);
     color: var(--ink);
     appearance: none;
     -webkit-appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: right 14px center;
-    padding-right: 38px;
+    padding-right: 40px;
     cursor: pointer;
   }
-  .card select:focus {
-    outline: none;
-    background-color: #fffaf3;
-  }
-  .card.answered .photo-wrap::after {
-    content: "✓";
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: var(--accent);
-    color: white;
-    font-weight: 700;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
+  .card.answered select { border-top-color: var(--energy); background-color: #f1fdf6; }
+  .card select:focus { outline: none; }
+
   .submit-row {
-    margin-top: 32px;
+    margin-top: 36px;
     text-align: center;
   }
   .progress {
-    color: var(--ink-soft);
+    color: var(--slate);
     font-size: 14px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
   }
+  .progress strong { color: var(--ink); font-weight: 700; }
   .submit-btn {
     background: var(--ink);
-    color: white;
+    color: var(--energy);
     border: none;
-    padding: 14px 36px;
+    padding: 16px 40px;
     font-size: 17px;
-    font-weight: 600;
+    font-weight: 700;
     font-family: inherit;
+    letter-spacing: -0.01em;
     border-radius: 12px;
     cursor: pointer;
-    transition: transform 0.1s ease, background 0.15s ease;
+    transition: transform 0.1s ease, background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   }
-  .submit-btn:hover { background: #27272a; }
+  .submit-btn:hover { background: var(--energy); color: var(--ink); transform: translateY(-1px); box-shadow: 0 10px 28px rgba(17,230,141,0.35); }
   .submit-btn:active { transform: scale(0.98); }
-  .submit-btn:disabled { background: #a1a1aa; cursor: not-allowed; }
+  .submit-btn:disabled { background: #d4d4d4; color: #999; cursor: not-allowed; box-shadow: none; transform: none; }
+  .submit-btn .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-right: 8px;
+    vertical-align: -2px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Result screen */
+  /* Result */
   .result {
     text-align: center;
-    padding: 40px 24px;
+    padding: 48px 28px;
     background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 18px;
+    border: 1.5px solid var(--line);
+    border-radius: 20px;
     box-shadow: var(--shadow);
-    max-width: 520px;
+    max-width: 540px;
     margin: 0 auto;
   }
+  .result-title {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin: 0 0 4px;
+  }
   .score-num {
-    font-size: clamp(72px, 14vw, 120px);
-    font-weight: 700;
-    color: var(--accent-ink);
-    letter-spacing: -0.04em;
+    font-size: clamp(96px, 18vw, 160px);
+    font-weight: 800;
+    color: var(--energy);
+    letter-spacing: -0.05em;
     line-height: 1;
-    margin: 8px 0;
+    margin: 8px 0 0;
+    -webkit-text-stroke: 1px var(--ink);
   }
   .score-out-of {
-    color: var(--ink-soft);
-    font-size: 24px;
-    font-weight: 500;
-  }
-  .result h2 {
-    font-size: 28px;
-    margin: 8px 0 4px;
+    color: var(--slate);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
   }
   .result-msg {
-    color: var(--ink-soft);
-    margin: 0 0 28px;
+    color: var(--slate);
+    margin: 4px 0 22px;
+    font-size: 17px;
+    font-weight: 500;
   }
+  .saved-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #ecfdf3;
+    color: #166534;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    border: 1px solid #bbf7d0;
+  }
+  .saved-pill.error { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+  .saved-pill::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: var(--energy);
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(17,230,141,0.3);
+  }
+  .saved-pill.error::before { background: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.3); }
   .copy-btn {
-    background: var(--accent);
-    color: white;
+    background: var(--ink);
+    color: var(--energy);
     border: none;
     padding: 14px 28px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     font-family: inherit;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background 0.15s;
+    letter-spacing: -0.01em;
+    transition: background 0.15s, color 0.15s;
   }
-  .copy-btn:hover { background: var(--accent-ink); }
+  .copy-btn:hover { background: var(--energy); color: var(--ink); }
   .copy-hint {
     margin-top: 18px;
-    color: var(--ink-soft);
-    font-size: 14px;
+    color: var(--silicon-2);
+    font-size: 13px;
+    font-weight: 500;
   }
   .review-link {
-    margin-top: 22px;
+    margin-top: 24px;
     font-size: 14px;
   }
   .review-link a {
-    color: var(--ink-soft);
+    color: var(--slate);
     text-decoration: underline;
     cursor: pointer;
+    font-weight: 500;
   }
+
   /* Confetti */
   .confetti {
     position: fixed;
     top: -10px;
-    width: 10px;
+    width: 12px;
     height: 14px;
     pointer-events: none;
     z-index: 1000;
@@ -249,22 +328,36 @@
     100% { transform: translateY(110vh) rotate(720deg); opacity: 0.7; }
   }
 
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 16px 20px 40px;
+    color: var(--silicon-2);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
   @media (max-width: 480px) {
-    .container { padding: 20px 14px 48px; }
+    .topbar { padding: 22px 16px 28px; }
+    .container { padding: 24px 14px 48px; }
     .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .badge { width: 32px; height: 32px; font-size: 15px; top: 8px; left: 8px; }
-    .card select { padding: 10px 12px; font-size: 14px; }
+    .badge { width: 34px; height: 34px; font-size: 15px; top: 10px; left: 10px; }
+    .card select { padding: 12px 14px; font-size: 14px; }
+    .submit-btn { width: 100%; }
   }
 </style>
 </head>
 <body>
+
+<div class="topbar">
+  <div class="wordmark">optemization</div>
+  <h1>Match the <em>baby</em>.</h1>
+  <p class="subtitle">12 numbered photos → match each to a teammate. Top 3 win.</p>
+</div>
+
 <main class="container">
   <section id="game">
-    <header>
-      <h1>🍼 Baby Optemizers</h1>
-      <p class="subtitle">Match each baby photo to a teammate. Top 3 scores win.</p>
-    </header>
-
     <div class="name-row">
       <input type="text" id="playerName" class="name-input" placeholder="Your name" autocomplete="off" required>
     </div>
@@ -272,24 +365,30 @@
     <form id="game-form">
       <div class="grid" id="grid"></div>
       <div class="submit-row">
-        <div class="progress" id="progress">0 / 12 answered</div>
+        <div class="progress"><strong id="progressNum">0</strong> / 12 answered</div>
         <button type="submit" class="submit-btn" id="submitBtn" disabled>Lock in my guesses</button>
       </div>
     </form>
   </section>
 
   <section id="result" class="result" hidden>
-    <h2 id="resultTitle">Submitted!</h2>
+    <h2 class="result-title" id="resultTitle">Submitted!</h2>
     <div class="score-num"><span id="scoreNum">0</span><span class="score-out-of"> / 12</span></div>
     <p class="result-msg" id="resultMsg"></p>
-    <button class="copy-btn" id="copyBtn">📋 Copy result for Slack</button>
-    <p class="copy-hint">Paste in the Slack thread to enter the leaderboard.</p>
+    <div class="saved-pill" id="savedPill" hidden></div>
+    <div>
+      <button class="copy-btn" id="copyBtn">📋 Copy result for Slack</button>
+    </div>
+    <p class="copy-hint">Backup: paste in the Slack thread if leaderboard didn't save.</p>
     <p class="review-link"><a id="reviewLink">← Edit my answers</a></p>
   </section>
 </main>
 
+<footer>built for the all-hands · 2026.04.30</footer>
+
 <script>
-  // Photo position → original filename + correct teammate (answer key).
+  const ENDPOINT = "https://primary-production-022b.up.railway.app/webhook/baby-optemizers";
+
   const PHOTOS = [
     { n: 1,  file: "photos/mike.jpg",         answer: "Mike" },
     { n: 2,  file: "photos/marcelo-1.jpg",    answer: "Marcelo" },
@@ -309,7 +408,7 @@
   const grid = document.getElementById("grid");
   const form = document.getElementById("game-form");
   const submitBtn = document.getElementById("submitBtn");
-  const progress = document.getElementById("progress");
+  const progressNum = document.getElementById("progressNum");
   const playerName = document.getElementById("playerName");
 
   // Build cards
@@ -347,12 +446,12 @@
 
   function updateProgress() {
     const answered = [...form.querySelectorAll("select")].filter(s => s.value).length;
-    progress.textContent = `${answered} / 12 answered`;
+    progressNum.textContent = answered;
     submitBtn.disabled = !(answered === 12 && playerName.value.trim().length > 0);
   }
   playerName.addEventListener("input", updateProgress);
 
-  // Restore previous submission if any
+  // Restore previous submission
   const saved = localStorage.getItem("submission");
   if (saved) {
     try {
@@ -371,51 +470,82 @@
     } catch (e) {}
   }
 
-  form.addEventListener("submit", e => {
+  form.addEventListener("submit", async e => {
     e.preventDefault();
     const name = playerName.value.trim();
     if (!name) return;
     const data = new FormData(form);
+    const guessesArr = PHOTOS.map(p => data.get(`q${p.n}`));
     let score = 0;
-    const guesses = {};
-    PHOTOS.forEach(p => {
-      const guess = data.get(`q${p.n}`);
-      guesses[`q${p.n}`] = guess;
-      if (guess === p.answer) score++;
-    });
-    localStorage.setItem("submission", JSON.stringify({ name, score, guesses, time: Date.now() }));
+    PHOTOS.forEach((p, i) => { if (guessesArr[i] === p.answer) score++; });
 
+    const guessesMap = {};
+    PHOTOS.forEach((p, i) => { guessesMap[`q${p.n}`] = guessesArr[i]; });
+    localStorage.setItem("submission", JSON.stringify({ name, score, guesses: guessesMap, time: Date.now() }));
+
+    // Show submitting state
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner"></span>Submitting...';
+
+    let savedToBackend = false;
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          guesses: guessesArr,
+          userAgent: navigator.userAgent
+        })
+      });
+      if (res.ok) {
+        savedToBackend = true;
+      }
+    } catch (err) {
+      console.warn("Submission failed:", err);
+    }
+
+    // Reveal result
     document.getElementById("game").hidden = true;
     const result = document.getElementById("result");
     result.hidden = false;
     document.getElementById("scoreNum").textContent = score;
 
     const msgs = {
-      12: { t: "Perfect score! 🏆", m: "You actually know everyone. Suspicious." },
-      11: { t: "So close! ✨",       m: "One more would've been a flawless run." },
-      10: { t: "Excellent! 🎉",      m: "You've been paying attention." },
-      9:  { t: "Strong work 👏",     m: "Solid eye for baby faces." },
-      8:  { t: "Nice 🙌",             m: "Above average. Respectable." },
-      7:  { t: "Decent 🙃",          m: "You knew most of them." },
-      6:  { t: "Halfway there 🤷",   m: "Coin-flip territory but charming." },
-      5:  { t: "Tough crowd 😅",     m: "Babies all kind of look alike, right?" },
-      4:  { t: "Eh 🫠",               m: "There's always next year." },
-      3:  { t: "Bold guesses 🎲",    m: "At least you committed." },
-      2:  { t: "Oof 😬",              m: "Did you click randomly?" },
-      1:  { t: "Yikes 🫣",            m: "Statistically you should have done better." },
-      0:  { t: "Anti-perfect 🪦",    m: "This took skill." }
+      12: { t: "Perfect score 🏆",     m: "You actually know everyone. Suspicious." },
+      11: { t: "So close ✨",            m: "One more would've been a flawless run." },
+      10: { t: "Excellent 🎉",           m: "You've been paying attention." },
+      9:  { t: "Strong work 👏",         m: "Solid eye for baby faces." },
+      8:  { t: "Nice 🙌",                 m: "Above average. Respectable." },
+      7:  { t: "Decent 🙃",              m: "You knew most of them." },
+      6:  { t: "Halfway there 🤷",       m: "Coin-flip territory but charming." },
+      5:  { t: "Tough crowd 😅",         m: "Babies all kind of look alike, right?" },
+      4:  { t: "Eh 🫠",                   m: "There's always next year." },
+      3:  { t: "Bold guesses 🎲",        m: "At least you committed." },
+      2:  { t: "Oof 😬",                  m: "Did you click randomly?" },
+      1:  { t: "Yikes 🫣",                m: "Statistically you should have done better." },
+      0:  { t: "Anti-perfect 🪦",        m: "This took skill." }
     };
     const m = msgs[score] || msgs[0];
     document.getElementById("resultTitle").textContent = m.t;
     document.getElementById("resultMsg").textContent = m.m;
 
+    const pill = document.getElementById("savedPill");
+    pill.hidden = false;
+    if (savedToBackend) {
+      pill.classList.remove("error");
+      pill.textContent = "Saved to leaderboard";
+    } else {
+      pill.classList.add("error");
+      pill.textContent = "Couldn't reach the leaderboard — paste your score in Slack as backup";
+    }
+
     if (score >= 10) burstConfetti();
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    // Copy button
     const copyBtn = document.getElementById("copyBtn");
     const ts = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-    const payload = `🍼 ${name} — ${score}/12 (submitted ${ts})`;
+    const payload = `🍼 ${name} — ${score}/12 (${ts})`;
     copyBtn.onclick = async () => {
       try {
         await navigator.clipboard.writeText(payload);
@@ -429,12 +559,15 @@
   document.getElementById("reviewLink").addEventListener("click", () => {
     document.getElementById("result").hidden = true;
     document.getElementById("game").hidden = false;
+    submitBtn.innerHTML = "Lock in my guesses";
+    submitBtn.disabled = false;
+    updateProgress();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
   function burstConfetti() {
-    const colors = ["#f97316", "#16a34a", "#0ea5e9", "#a855f7", "#eab308", "#ec4899"];
-    for (let i = 0; i < 80; i++) {
+    const colors = ["#11E68D", "#000000", "#262626", "#11E68D", "#FFFFFF", "#11E68D"];
+    for (let i = 0; i < 100; i++) {
       const c = document.createElement("div");
       c.className = "confetti";
       c.style.left = Math.random() * 100 + "vw";
