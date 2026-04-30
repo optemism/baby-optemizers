@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baby Optemizers — Match the Baby</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --card: #ffffff;
+    --ink: #18181b;
+    --ink-soft: #52525b;
+    --line: #e4e4e7;
+    --accent: #f97316;
+    --accent-ink: #ea580c;
+    --good: #16a34a;
+    --bad: #dc2626;
+    --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px 64px;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  h1 {
+    font-size: clamp(28px, 4.5vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 6px;
+  }
+  .subtitle {
+    font-size: clamp(14px, 1.6vw, 17px);
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .name-row {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0 28px;
+  }
+  .name-input {
+    width: min(360px, 100%);
+    padding: 12px 16px;
+    font-size: 16px;
+    font-family: inherit;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    background: var(--card);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .name-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,0.06), 0 12px 24px rgba(0,0,0,0.06); }
+  .photo-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: #f4f4f5;
+    overflow: hidden;
+  }
+  .photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    display: block;
+  }
+  .badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(24, 24, 27, 0.92);
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+  .card select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: inherit;
+    border: none;
+    border-top: 1px solid var(--line);
+    background: white;
+    color: var(--ink);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 38px;
+    cursor: pointer;
+  }
+  .card select:focus {
+    outline: none;
+    background-color: #fffaf3;
+  }
+  .card.answered .photo-wrap::after {
+    content: "✓";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .submit-row {
+    margin-top: 32px;
+    text-align: center;
+  }
+  .progress {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .submit-btn {
+    background: var(--ink);
+    color: white;
+    border: none;
+    padding: 14px 36px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: inherit;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.1s ease, background 0.15s ease;
+  }
+  .submit-btn:hover { background: #27272a; }
+  .submit-btn:active { transform: scale(0.98); }
+  .submit-btn:disabled { background: #a1a1aa; cursor: not-allowed; }
+
+  /* Result screen */
+  .result {
+    text-align: center;
+    padding: 40px 24px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .score-num {
+    font-size: clamp(72px, 14vw, 120px);
+    font-weight: 700;
+    color: var(--accent-ink);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin: 8px 0;
+  }
+  .score-out-of {
+    color: var(--ink-soft);
+    font-size: 24px;
+    font-weight: 500;
+  }
+  .result h2 {
+    font-size: 28px;
+    margin: 8px 0 4px;
+  }
+  .result-msg {
+    color: var(--ink-soft);
+    margin: 0 0 28px;
+  }
+  .copy-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .copy-btn:hover { background: var(--accent-ink); }
+  .copy-hint {
+    margin-top: 18px;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+  .review-link {
+    margin-top: 22px;
+    font-size: 14px;
+  }
+  .review-link a {
+    color: var(--ink-soft);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  /* Confetti */
+  .confetti {
+    position: fixed;
+    top: -10px;
+    width: 10px;
+    height: 14px;
+    pointer-events: none;
+    z-index: 1000;
+    animation: fall linear forwards;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0.7; }
+  }
+
+  @media (max-width: 480px) {
+    .container { padding: 20px 14px 48px; }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .badge { width: 32px; height: 32px; font-size: 15px; top: 8px; left: 8px; }
+    .card select { padding: 10px 12px; font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+<main class="container">
+  <section id="game">
+    <header>
+      <h1>🍼 Baby Optemizers</h1>
+      <p class="subtitle">Match each baby photo to a teammate. Top 3 scores win.</p>
+    </header>
+
+    <div class="name-row">
+      <input type="text" id="playerName" class="name-input" placeholder="Your name" autocomplete="off" required>
+    </div>
+
+    <form id="game-form">
+      <div class="grid" id="grid"></div>
+      <div class="submit-row">
+        <div class="progress" id="progress">0 / 12 answered</div>
+        <button type="submit" class="submit-btn" id="submitBtn" disabled>Lock in my guesses</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="result" class="result" hidden>
+    <h2 id="resultTitle">Submitted!</h2>
+    <div class="score-num"><span id="scoreNum">0</span><span class="score-out-of"> / 12</span></div>
+    <p class="result-msg" id="resultMsg"></p>
+    <button class="copy-btn" id="copyBtn">📋 Copy result for Slack</button>
+    <p class="copy-hint">Paste in the Slack thread to enter the leaderboard.</p>
+    <p class="review-link"><a id="reviewLink">← Edit my answers</a></p>
+  </section>
+</main>
+
+<script>
+  // Photo position → original filename + correct teammate (answer key).
+  const PHOTOS = [
+    { n: 1,  file: "photos/mike.jpg",         answer: "Mike" },
+    { n: 2,  file: "photos/marcelo-1.jpg",    answer: "Marcelo" },
+    { n: 3,  file: "photos/irene.jpg",        answer: "Irene" },
+    { n: 4,  file: "photos/natalie.jpg",      answer: "Natalie" },
+    { n: 5,  file: "photos/skyler.png",       answer: "Skyler" },
+    { n: 6,  file: "photos/marcelo-2.jpg",    answer: "Marcelo" },
+    { n: 7,  file: "photos/vini.jpg",         answer: "Vini" },
+    { n: 8,  file: "photos/luiza-1.jpeg",     answer: "Luiza" },
+    { n: 9,  file: "photos/luiza-2.jpeg",     answer: "Luiza" },
+    { n: 10, file: "photos/dunston.jpg",      answer: "Dunston" },
+    { n: 11, file: "photos/hasty.jpg",        answer: "Hasty" },
+    { n: 12, file: "photos/tem.jpg",          answer: "Tem" }
+  ];
+  const TEAM = ["Dunston", "Hasty", "Irene", "Luiza", "Marcelo", "Mike", "Natalie", "Skyler", "Tem", "Vini"];
+
+  const grid = document.getElementById("grid");
+  const form = document.getElementById("game-form");
+  const submitBtn = document.getElementById("submitBtn");
+  const progress = document.getElementById("progress");
+  const playerName = document.getElementById("playerName");
+
+  // Build cards
+  PHOTOS.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.dataset.n = p.n;
+
+    const wrap = document.createElement("div");
+    wrap.className = "photo-wrap";
+    const badge = document.createElement("div");
+    badge.className = "badge";
+    badge.textContent = p.n;
+    const img = document.createElement("img");
+    img.src = p.file;
+    img.alt = `Baby photo ${p.n}`;
+    img.loading = "lazy";
+    wrap.appendChild(img);
+    wrap.appendChild(badge);
+
+    const select = document.createElement("select");
+    select.name = `q${p.n}`;
+    select.required = true;
+    select.innerHTML = `<option value="">Pick a teammate…</option>` +
+      TEAM.map(t => `<option value="${t}">${t}</option>`).join("");
+    select.addEventListener("change", () => {
+      card.classList.toggle("answered", !!select.value);
+      updateProgress();
+    });
+
+    card.appendChild(wrap);
+    card.appendChild(select);
+    grid.appendChild(card);
+  });
+
+  function updateProgress() {
+    const answered = [...form.querySelectorAll("select")].filter(s => s.value).length;
+    progress.textContent = `${answered} / 12 answered`;
+    submitBtn.disabled = !(answered === 12 && playerName.value.trim().length > 0);
+  }
+  playerName.addEventListener("input", updateProgress);
+
+  // Restore previous submission if any
+  const saved = localStorage.getItem("submission");
+  if (saved) {
+    try {
+      const s = JSON.parse(saved);
+      if (s.name) playerName.value = s.name;
+      if (s.guesses) {
+        Object.entries(s.guesses).forEach(([k, v]) => {
+          const sel = form.querySelector(`select[name="${k}"]`);
+          if (sel) {
+            sel.value = v;
+            sel.closest(".card").classList.toggle("answered", !!v);
+          }
+        });
+      }
+      updateProgress();
+    } catch (e) {}
+  }
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const name = playerName.value.trim();
+    if (!name) return;
+    const data = new FormData(form);
+    let score = 0;
+    const guesses = {};
+    PHOTOS.forEach(p => {
+      const guess = data.get(`q${p.n}`);
+      guesses[`q${p.n}`] = guess;
+      if (guess === p.answer) score++;
+    });
+    localStorage.setItem("submission", JSON.stringify({ name, score, guesses, time: Date.now() }));
+
+    document.getElementById("game").hidden = true;
+    const result = document.getElementById("result");
+    result.hidden = false;
+    document.getElementById("scoreNum").textContent = score;
+
+    const msgs = {
+      12: { t: "Perfect score! 🏆", m: "You actually know everyone. Suspicious." },
+      11: { t: "So close! ✨",       m: "One more would've been a flawless run." },
+      10: { t: "Excellent! 🎉",      m: "You've been paying attention." },
+      9:  { t: "Strong work 👏",     m: "Solid eye for baby faces." },
+      8:  { t: "Nice 🙌",             m: "Above average. Respectable." },
+      7:  { t: "Decent 🙃",          m: "You knew most of them." },
+      6:  { t: "Halfway there 🤷",   m: "Coin-flip territory but charming." },
+      5:  { t: "Tough crowd 😅",     m: "Babies all kind of look alike, right?" },
+      4:  { t: "Eh 🫠",               m: "There's always next year." },
+      3:  { t: "Bold guesses 🎲",    m: "At least you committed." },
+      2:  { t: "Oof 😬",              m: "Did you click randomly?" },
+      1:  { t: "Yikes 🫣",            m: "Statistically you should have done better." },
+      0:  { t: "Anti-perfect 🪦",    m: "This took skill." }
+    };
+    const m = msgs[score] || msgs[0];
+    document.getElementById("resultTitle").textContent = m.t;
+    document.getElementById("resultMsg").textContent = m.m;
+
+    if (score >= 10) burstConfetti();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    // Copy button
+    const copyBtn = document.getElementById("copyBtn");
+    const ts = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    const payload = `🍼 ${name} — ${score}/12 (submitted ${ts})`;
+    copyBtn.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(payload);
+        copyBtn.textContent = "✅ Copied — paste in Slack";
+      } catch {
+        copyBtn.textContent = payload;
+      }
+    };
+  });
+
+  document.getElementById("reviewLink").addEventListener("click", () => {
+    document.getElementById("result").hidden = true;
+    document.getElementById("game").hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  function burstConfetti() {
+    const colors = ["#f97316", "#16a34a", "#0ea5e9", "#a855f7", "#eab308", "#ec4899"];
+    for (let i = 0; i < 80; i++) {
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.animationDuration = 2 + Math.random() * 2 + "s";
+      c.style.animationDelay = Math.random() * 0.5 + "s";
+      c.style.transform = `rotate(${Math.random() * 360}deg)`;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4500);
+    }
+  }
+</script>
+</body>
+</html>
